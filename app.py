@@ -159,7 +159,9 @@ with tab_forecast:
                     if f_promo_end < f_promo_start: st.error("End date before start.")
                     else: st.session_state.future_promo_plans.append({'start': pd.to_datetime(f_promo_start), 'end': pd.to_datetime(f_promo_end), 'discount': f_promo_discount})
                 if st.session_state.future_promo_plans:
-                    st.caption("Current Promotion Plans:"); [st.caption(f"- {p['discount']*100:.0f}%: {p['start']:%Y-%m-%d} to {p['end']:%Y-%m-%d}") for p in st.session_state.future_promo_plans]
+                    st.caption("Current Promotion Plans:")
+                    for p in st.session_state.future_promo_plans:
+                        st.caption(f"- {p['discount']*100:.0f}%: {p['start']:%Y-%m-%d} to {p['end']:%Y-%m-%d}")
                     if st.button("Clear Promotions", key="clear_f_promo_main"): st.session_state.future_promo_plans = []
 
             with st.expander("Plan Future Seasonal Events", expanded=False):
@@ -172,7 +174,9 @@ with tab_forecast:
                     if f_event_end < f_event_start: st.error("End date before start.")
                     else: st.session_state.future_event_plans.append({'start': pd.to_datetime(f_event_start), 'end': pd.to_datetime(f_event_end), 'multiplier': f_event_multiplier})
             if st.session_state.future_event_plans:
-                st.caption("Current Event Plans:"); [st.caption(f"- x{p['multiplier']:.1f}: {p['start']:%Y-%m-%d} to {p['end']:%Y-%m-%d}") for p in st.session_state.future_event_plans]
+                st.caption("Current Event Plans:")
+                for p in st.session_state.future_event_plans:
+                    st.caption(f"- x{p['multiplier']:.1f}: {p['start']:%Y-%m-%d} to {p['end']:%Y-%m-%d}")
                 if st.button("Clear Events", key="clear_f_event_main"): st.session_state.future_event_plans = []
         
         st.markdown("---") 
@@ -254,7 +258,6 @@ with tab_simulate:
             sim_duration_sim_ctrl = st.slider("Simulation Duration (Days)", 30, forecast_len_sim_ctrl, min(forecast_len_sim_ctrl, 365), 30, key="sim_duration_main")
             random_seed_sim_ctrl = st.number_input("Random Seed", value=42, step=1, key="rand_seed_main")
             initial_inventory_sim_ctrl = st.number_input("Initial Lindt Stock (Units)", min_value=0, value=500, step=10, key="init_inv_main") # Updated example value
-            
             st.markdown("##### Supplier Lead Time for Lindt") # Updated
             mean_lt_sim_ctrl = st.number_input("Mean Lead Time (days)", min_value=1, value=10, step=1, key="mean_lt_main") # Updated example value
             std_lt_sim_ctrl = st.number_input("Std Dev Lead Time (days)", min_value=0, value=3, step=1, key="std_lt_main") # Updated example value
